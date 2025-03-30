@@ -1,0 +1,19 @@
+/* Định nghĩa màu đậm hơn cho thanh tiến trình */
+.toast-container .progress-bar {
+    background-color: #28a745; /* Màu đậm hơn của bg-success */
+}
+
+/* Màu đậm hơn cho bg-danger */
+.toast-container .progress-bar.bg-danger {
+    background-color: #dc3545; /* Đậm hơn màu đỏ */
+}
+
+/* Màu đậm hơn cho bg-warning */
+.toast-container .progress-bar.bg-warning {
+    background-color: #e0a800; /* Đậm hơn màu vàng */
+}
+
+/* Màu đậm hơn cho bg-info */
+.toast-container .progress-bar.bg-info {
+    background-color: #17a2b8; /* Đậm hơn màu xanh dương */
+}

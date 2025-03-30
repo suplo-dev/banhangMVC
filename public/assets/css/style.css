@@ -1,0 +1,61 @@
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1;
+}
+
+
+/* Search form wrapper */
+.search-form {
+    border: 2px solid #0d6efd; /* xanh Bootstrap */
+    border-radius: 30px;
+    overflow: hidden;
+    width: 450px;
+    display: flex;
+    background-color: white;
+}
+
+/* Input */
+.search-input {
+    flex: 1;
+    border: none;
+    border-radius: 0;
+    padding-left: 15px;
+}
+
+.search-input:focus {
+    box-shadow: none;
+}
+
+/* Nút search */
+.search-btn {
+    background-color: #0d6efd; /* xanh */
+    color: white;
+    border: none;
+    border-radius: 0;
+    padding: 0 20px;
+}
+
+.search-btn:hover {
+    background-color: #0b5ed7; /* xanh đậm */
+}
+
+/* Khi hover vào card sản phẩm */
+.product-card {
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Tạo hiệu ứng nổi lên */
+.product-card:hover {
+    transform: translateY(-10px); /* Nâng sản phẩm lên 10px */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Đổ bóng phía dưới */
+}

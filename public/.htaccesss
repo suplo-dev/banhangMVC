@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /banhangMVC/public/
+
+# Rewrite URL dạng /slug -> index.php?controller=product&action=detail&slug=slug
+RewriteRule ^([^/]+)$ index.php?controller=product&action=detail&slug=$1 [L,QSA]
