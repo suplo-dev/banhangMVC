@@ -7,7 +7,7 @@ class Order extends Model
 
     public function searchOrder($keyword, int $limit = 20, int $offset = 0)
     {
-        $query = "SELECT orders.*, users.username, users.phone FROM orders 
+        $query = "SELECT orders.*, users.username, users.phone as user_pnone FROM orders 
             LEFT JOIN users ON orders.user_id = users.id";
         $bindings = [];
         if ($keyword) {

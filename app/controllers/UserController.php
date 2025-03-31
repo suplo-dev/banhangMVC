@@ -5,7 +5,7 @@ class UserController extends Controller {
             $username = $_POST['username'];
             $password = $_POST['password'];
             $email = $_POST['email'];
-            $role = 'user';
+            $role = 'customer';
             $userModel = $this->model('User');
             $userModel->register($username, $password, $email, $role);
             header('Location: ?controller=user&action=login');
@@ -64,7 +64,7 @@ class UserController extends Controller {
         $users = $userModel->searchUser([
             'keyword' => $_GET['keyword'] ?? '',
             'role' => $_GET['role'] ?? ''
-        ], $perPage, $page - 1);
+        ], $perPage, ($page - 1) * $perPage);
         $total = $userModel->countUser([
             'keyword' => $_GET['keyword'] ?? '',
             'role' => $_GET['role'] ?? ''

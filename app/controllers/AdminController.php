@@ -39,7 +39,7 @@ class AdminController extends Controller
             'keyword' => $_GET['keyword'] ?? '',
             'min_price' => $_GET['min_price'] ?? 0,
             'max_price' => $_GET['max_price'] ?? 0
-        ], $perPage, $page - 1);
+        ], $perPage, ($page - 1) * $perPage);
         $total = $productModel->countProduct([
             'category_id' => $_GET['category_id'] ?? 0,
             'keyword' => $_GET['keyword'] ?? '',
@@ -180,7 +180,7 @@ class AdminController extends Controller
         $page = $_GET['page'] ?? 1;
         $perPage = $_GET['perPage'] ?? 20;
         $orderModel = $this->model('Order');
-        $orders = $orderModel->searchOrder($keyword, $perPage, $page - 1);
+        $orders = $orderModel->searchOrder($keyword, $perPage, ($page - 1) * $perPage);
         $total = $orderModel->countOrder($keyword);
         $page = $_GET['page'] ?? 1;
         $perPage = $_GET['perPage'] ?? 20;
@@ -202,7 +202,7 @@ class AdminController extends Controller
         $categories = $categoryModel->searchCategory([
             'keyword' => $_GET['keyword'] ?? '',
             'show_home' => $_GET['show_home'] ?? 0,
-        ], $perPage, $page - 1);
+        ], $perPage, ($page - 1) * $perPage);
         $total = $categoryModel->countCategory([
             'keyword' => $_GET['keyword'] ?? '',
             'show_home' => $_GET['show_home'] ?? 0,

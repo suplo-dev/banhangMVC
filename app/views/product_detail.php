@@ -29,7 +29,7 @@
     </div>
     <div class="col-md-6">
         <h2 class="mt-5"><?= $data['product']['name'] ?></h2>
-        <div><?= $data['product']['description'] ?></div>
+        <div class="border rounded p-2 mb-2"><?= $data['product']['description'] ?></div>
         <h5 class="text-danger" style="font-weight: bold"><?= number_format($data['product']['price']) ?> VND</h5>
         <a href="?controller=cart&action=add&id=<?= $data['product']['id'] ?>" class="btn btn-success">Thêm vào giỏ hàng</a>
     </div>

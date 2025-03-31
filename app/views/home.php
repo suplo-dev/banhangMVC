@@ -1,30 +1,15 @@
 <div class="row mb-4">
-    <!-- Danh mục bên trái -->
-    <div class="col-md-3">
-        <div class="list-group">
-            <?php foreach ($data['categories'] as $category): ?>
-                <a href="?controller=product&action=search&category_id=<?= $category['id'] ?>"
-                   class="list-group-item list-group-item-action d-flex align-items-center">
-                    <!-- Icon -->
-                    <i class="bi bi-laptop me-2"></i>
-                    <?= $category['name'] ?>
-                    <i class="bi bi-chevron-right ms-auto"></i>
-                </a>
-            <?php endforeach; ?>
-        </div>
-    </div>
-
     <!-- Carousel bên phải -->
-    <div class="col-md-9">
+    <div class="col-12">
         <!-- Carousel code bạn đã có -->
-        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel"
-             style="max-width: 747px; height: 350px; overflow: hidden;">
+        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000"
+             style="overflow: hidden;">
             <div class="carousel-inner">
                 <?php foreach ($data['banners'] as $index => $banner): ?>
                     <div class="carousel-item <?= $index == 0 ? 'active' : '' ?>">
                         <a href="<?= $banner['link'] ?>">
                             <img src="<?= $banner['image'] ?>" class="d-block w-100" alt="<?= $banner['title'] ?>"
-                                 style="height: 350px; object-fit: cover;">
+                                 style="object-fit: cover;">
                         </a>
                     </div>
                 <?php endforeach; ?>
@@ -48,6 +33,39 @@
     </div>
     <div class="col-4">
         <img src="assets/images/subBanner3.png" alt="">
+    </div>
+</div>
+<h2 class="mt-5 mb-3 text-uppercase">Sản phẩm bán chạy</h2>
+<div class="row row-cols-2 row-cols-sm-3 row-cols-md-6 g-3">
+    <div id="carouselProductImages" class="carousel-container w-100">
+        <button class="carousel-control-prev" type="button">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <div class="carousel-track-wrapper">
+            <div class="carousel-track">
+                <?php foreach ($data['products'] as $product): ?>
+                    <div class="carousel-item-custom">
+                        <div class="card h-100 product-card"
+                             data-link="?controller=product&action=detail&id=<?= $product['id'] ?>">
+                            <img src="<?= $product['thumb_url'] ?>" class="card-img-top" alt="<?= $product['name'] ?>"
+                                 style="height: 180px; object-fit: cover;">
+                            <div class="card-body d-flex flex-column">
+                                <h6 class="card-title"><?= $product['name'] ?></h6>
+                                <p class="card-text text-danger fw-bold"><?= number_format($product['price']) ?> VND</p>
+                                <div class="mt-auto d-flex justify-content-center">
+                                    <button type="button" class="btn btn-success btn-sm add-to-cart"
+                                            data-id="<?= $product['id'] ?>">Thêm vào giỏ
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <button class="carousel-control-next" type="button">
+            <span class="carousel-control-next-icon"></span>
+        </button>
     </div>
 </div>
 <h2 class="mt-5 mb-3 text-uppercase">Sản phẩm bán chạy</h2>
@@ -97,22 +115,22 @@
     <h2 class="mt-5 mb-3 text-uppercase"><?= $category['name'] ?></h2>
     <div class="row row-cols-2 row-cols-sm-3 row-cols-md-6 g-3">
         <?php foreach ($category['products'] as $product): ?>
-        <div class="col">
-            <div class="card h-100 product-card" style="cursor: pointer;"
-                 data-link="?controller=product&action=detail&id=<?= $product['id'] ?>">
-                <img src="<?= $product['thumb_url'] ?>" class="card-img-top" alt="<?= $product['name'] ?>"
-                     style="height: 180px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                    <h6 class="card-title"><?= $product['name'] ?></h6>
-                    <p class="card-text text-danger fw-bold"><?= number_format($product['price']) ?> VND</p>
-                    <div class="mt-auto d-flex justify-content-center">
-                        <button type="button" class="btn btn-success btn-sm add-to-cart"
-                                data-id="<?= $product['id'] ?>">Thêm vào giỏ
-                        </button>
+            <div class="col">
+                <div class="card h-100 product-card" style="cursor: pointer;"
+                     data-link="?controller=product&action=detail&id=<?= $product['id'] ?>">
+                    <img src="<?= $product['thumb_url'] ?>" class="card-img-top" alt="<?= $product['name'] ?>"
+                         style="height: 180px; object-fit: cover;">
+                    <div class="card-body d-flex flex-column">
+                        <h6 class="card-title"><?= $product['name'] ?></h6>
+                        <p class="card-text text-danger fw-bold"><?= number_format($product['price']) ?> VND</p>
+                        <div class="mt-auto d-flex justify-content-center">
+                            <button type="button" class="btn btn-success btn-sm add-to-cart"
+                                    data-id="<?= $product['id'] ?>">Thêm vào giỏ
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         <?php endforeach; ?>
     </div>
 <?php endforeach; ?>
@@ -151,4 +169,104 @@
             window.location.href = this.dataset.link;
         });
     });
+</script>
+<style>
+    .carousel-container {
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+    }
+
+    .carousel-track-wrapper {
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .carousel-track {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-item-custom {
+        flex: 0 0 20%; /* Hiển thị 4 ảnh mỗi lần */
+        padding: 5px;
+        text-align: center;
+    }
+
+    .carousel-item-custom img {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+    .carousel-control-prev, .carousel-control-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.6);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+    }
+
+    .carousel-control-prev { left: 10px; }
+    .carousel-control-next { right: 10px; }
+
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        -webkit-mask-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath fill-rule="evenodd" d="M11.854 1.146a.5.5 0 0 1 0 .708L5.707 8l6.147 6.146a.5.5 0 0 1-.708.708l-6.5-6.5a.5.5 0 0 1 0-.708l6.5-6.5a.5.5 0 0 1 .708 0z"%3E%3C/path%3E%3C/svg%3E');
+        mask-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath fill-rule="evenodd" d="M11.854 1.146a.5.5 0 0 1 0 .708L5.707 8l6.147 6.146a.5.5 0 0 1-.708.708l-6.5-6.5a.5.5 0 0 1 0-.708l6.5-6.5a.5.5 0 0 1 .708 0z"%3E%3C/path%3E%3C/svg%3E');
+    }
+
+    .carousel-control-next-icon {
+        transform: rotate(180deg);
+    }
+
+    .main-thumbnail {
+        width: 75%; /* Giữ kích thước cố định */
+        height: auto;
+        max-height: 400px; /* Giới hạn chiều cao */
+        object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    }
+</style>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const carouselContainer = document.getElementById("carouselProductImages");
+        const track = carouselContainer.querySelector(".carousel-track");
+        const prevBtn = carouselContainer.querySelector(".carousel-control-prev");
+        const nextBtn = carouselContainer.querySelector(".carousel-control-next");
+        const items = carouselContainer.querySelectorAll(".carousel-item-custom");
+        let index = 0;
+
+        function updateCarousel() {
+            const offset = -index * 100 / 5; // Trượt từng ảnh
+            track.style.transform = `translateX(${offset}%)`;
+        }
+
+        nextBtn.addEventListener("click", function () {
+            if (index < items.length - 5) {
+                index++;
+                updateCarousel();
+            }
+        });
+
+        prevBtn.addEventListener("click", function () {
+            if (index > 0) {
+                index--;
+                updateCarousel();
+            }
+        });
+    });
+
 </script>

@@ -104,6 +104,7 @@
                     <?php endif; ?>
                 </div>
             </div>
+            <?php if (!(isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin')): ?>
             <div class="col-12 mt-1">
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav align-items-center">
@@ -115,22 +116,25 @@
                     </ul>
                 </div>
             </div>
+            <?php endif; ?>
         </div>
         <!-- Menu phải -->
         <ul class="navbar-nav align-items-center w-50 text-end justify-content-end">
-            <?php if (isset($_SESSION['user'])): ?>
-                <li class="nav-item"><a class="nav-link" href="?controller=order&action=history">Lịch sử đơn
-                        hàng</a></li>
+            <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'customer'): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="?controller=order&action=history">Lịch sử đơn hàng</a>
+                </li>
             <?php endif; ?>
-            <!-- Giỏ hàng -->
-            <li class="nav-item dropdown me-2 position-relative">
-                <a class="nav-link" href="?controller=cart&action=index" role="button">
-                    <i class="bi bi-cart"></i>
-                    <span id="cart-count"
-                          class="badge bg-danger"><?= isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0 ?></span>
-                </a>
+            <?php if (!(isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin')): ?>
+                <!-- Giỏ hàng -->
+                <li class="nav-item dropdown me-2 position-relative">
+                    <a class="nav-link" href="?controller=cart&action=index" role="button">
+                        <i class="bi bi-cart"></i>
+                        <span id="cart-count"
+                              class="badge bg-danger"><?= isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0 ?></span>
+                    </a>
             </li>
-
+            <?php endif; ?>
             <!-- User login -->
             <?php if (isset($_SESSION['user'])): ?>
                 <li class="nav-item"><a class="nav-link"
