@@ -68,70 +68,40 @@
         </button>
     </div>
 </div>
-<h2 class="mt-5 mb-3 text-uppercase">Sản phẩm bán chạy</h2>
-<div class="row row-cols-2 row-cols-sm-3 row-cols-md-6 g-3">
-    <?php foreach ($data['products'] as $product): ?>
-        <div class="col">
-            <div class="card h-100 product-card"
-                 data-link="?controller=product&action=detail&id=<?= $product['id'] ?>">
-                <img src="<?= $product['thumb_url'] ?>" class="card-img-top" alt="<?= $product['name'] ?>"
-                     style="height: 180px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                    <h6 class="card-title"><?= $product['name'] ?></h6>
-                    <p class="card-text text-danger fw-bold"><?= number_format($product['price']) ?> VND</p>
-                    <div class="mt-auto d-flex justify-content-center">
-                        <button type="button" class="btn btn-success btn-sm add-to-cart"
-                                data-id="<?= $product['id'] ?>">Thêm vào giỏ
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <?php endforeach; ?>
-</div>
 
-<h2 class="mt-5 mb-3 text-uppercase">Sản phẩm mới về</h2>
-<div class="row row-cols-2 row-cols-sm-3 row-cols-md-6 g-3">
-    <?php foreach ($data['products'] as $product): ?>
-        <div class="col">
-            <div class="card h-100 product-card" style="cursor: pointer;"
-                 data-link="?controller=product&action=detail&id=<?= $product['id'] ?>">
-                <img src="<?= $product['thumb_url'] ?>" class="card-img-top" alt="<?= $product['name'] ?>"
-                     style="height: 180px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                    <h6 class="card-title"><?= $product['name'] ?></h6>
-                    <p class="card-text text-danger fw-bold"><?= number_format($product['price']) ?> VND</p>
-                    <div class="mt-auto d-flex justify-content-center">
-                        <button type="button" class="btn btn-success btn-sm add-to-cart"
-                                data-id="<?= $product['id'] ?>">Thêm vào giỏ
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <?php endforeach; ?>
-</div>
 <?php foreach ($data['categoriesShowHome'] as $category): ?>
     <h2 class="mt-5 mb-3 text-uppercase"><?= $category['name'] ?></h2>
     <div class="row row-cols-2 row-cols-sm-3 row-cols-md-6 g-3">
-        <?php foreach ($category['products'] as $product): ?>
-            <div class="col">
-                <div class="card h-100 product-card" style="cursor: pointer;"
-                     data-link="?controller=product&action=detail&id=<?= $product['id'] ?>">
-                    <img src="<?= $product['thumb_url'] ?>" class="card-img-top" alt="<?= $product['name'] ?>"
-                         style="height: 180px; object-fit: cover;">
-                    <div class="card-body d-flex flex-column">
-                        <h6 class="card-title"><?= $product['name'] ?></h6>
-                        <p class="card-text text-danger fw-bold"><?= number_format($product['price']) ?> VND</p>
-                        <div class="mt-auto d-flex justify-content-center">
-                            <button type="button" class="btn btn-success btn-sm add-to-cart"
-                                    data-id="<?= $product['id'] ?>">Thêm vào giỏ
-                            </button>
+        <div id="carouselProductImages" class="carousel-container w-100">
+            <button class="carousel-control-prev" type="button">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <div class="carousel-track-wrapper">
+                <div class="carousel-track">
+                    <?php foreach ($category['products'] as $product): ?>
+                        <div class="carousel-item-custom">
+                            <div class="card h-100 product-card"
+                                 data-link="?controller=product&action=detail&id=<?= $product['id'] ?>">
+                                <img src="<?= $product['thumb_url'] ?>" class="card-img-top" alt="<?= $product['name'] ?>"
+                                     style="height: 180px; object-fit: cover;">
+                                <div class="card-body d-flex flex-column">
+                                    <h6 class="card-title"><?= $product['name'] ?></h6>
+                                    <p class="card-text text-danger fw-bold"><?= number_format($product['price']) ?> VND</p>
+                                    <div class="mt-auto d-flex justify-content-center">
+                                        <button type="button" class="btn btn-success btn-sm add-to-cart"
+                                                data-id="<?= $product['id'] ?>">Thêm vào giỏ
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
-        <?php endforeach; ?>
+            <button class="carousel-control-next" type="button">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
     </div>
 <?php endforeach; ?>
 
@@ -242,31 +212,33 @@
 </style>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const carouselContainer = document.getElementById("carouselProductImages");
-        const track = carouselContainer.querySelector(".carousel-track");
-        const prevBtn = carouselContainer.querySelector(".carousel-control-prev");
-        const nextBtn = carouselContainer.querySelector(".carousel-control-next");
-        const items = carouselContainer.querySelectorAll(".carousel-item-custom");
-        let index = 0;
+        document.querySelectorAll(".carousel-container").forEach(carouselContainer => {
+            const track = carouselContainer.querySelector(".carousel-track");
+            const prevBtn = carouselContainer.querySelector(".carousel-control-prev");
+            const nextBtn = carouselContainer.querySelector(".carousel-control-next");
+            const items = carouselContainer.querySelectorAll(".carousel-item-custom");
 
-        function updateCarousel() {
-            const offset = -index * 100 / 5; // Trượt từng ảnh
-            track.style.transform = `translateX(${offset}%)`;
-        }
+            let index = 0;
 
-        nextBtn.addEventListener("click", function () {
-            if (index < items.length - 5) {
-                index++;
-                updateCarousel();
+            function updateCarousel() {
+                const offset = -index * 100 / 5; // 5 là số ảnh hiển thị
+                track.style.transform = `translateX(${offset}%)`;
             }
-        });
 
-        prevBtn.addEventListener("click", function () {
-            if (index > 0) {
-                index--;
-                updateCarousel();
-            }
+            nextBtn.addEventListener("click", function () {
+                if (index < items.length - 5) {
+                    index++;
+                    updateCarousel();
+                }
+            });
+
+            prevBtn.addEventListener("click", function () {
+                if (index > 0) {
+                    index--;
+                    updateCarousel();
+                }
+            });
         });
     });
-
 </script>
+
