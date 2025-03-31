@@ -8,10 +8,11 @@ class UserController extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $username = $_POST['username'];
             $password = $_POST['password'];
+            $phone = $_POST['phone'];
             $email = $_POST['email'];
             $role = 'customer';
             $userModel = $this->model('User');
-            $userModel->register($username, $password, $email, $role);
+            $userModel->register($username, $password, $email, $phone, $role);
             header('Location: ?controller=user&action=login');
         } else {
             $this->view('user/register');

@@ -2,10 +2,10 @@
 class User extends Model {
 
     private $table = "users";
-    public function register($username, $password, $email, $role) {
+    public function register($username, $password, $email, $phone, $role) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $this->db->prepare("INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)");
-        return $stmt->execute([$username, $hashedPassword, $email, $role]);
+        $stmt = $this->db->prepare("INSERT INTO users (username, password, email, phone, role) VALUES (?, ?, ?, ?, ?)");
+        return $stmt->execute([$username, $hashedPassword, $email, $phone, $role]);
     }
 
     public function add($username, $password, $email, $role, $phone, $address) {
