@@ -31,7 +31,7 @@
 <div class="row">
     <?php foreach($data['products'] as $product): ?>
         <div class="col-md-4 mb-4">
-            <div class="card h-100">
+            <div class="card h-100 product-card">
                 <img src="<?= $product['thumb_url'] ?>" class="card-img-top" alt="<?= $product['name'] ?>" style="height: 200px; object-fit: cover;">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title"><?= $product['name'] ?></h5>
