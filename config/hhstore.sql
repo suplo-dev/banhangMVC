@@ -1,3 +1,4 @@
+USE hhstore;
 /*
  Navicat Premium Data Transfer
 
@@ -22,11 +23,11 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `banners`;
 CREATE TABLE `banners` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `link` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+                           `id` int(11) NOT NULL AUTO_INCREMENT,
+                           `title` varchar(100) DEFAULT NULL,
+                           `image` varchar(255) DEFAULT NULL,
+                           `link` varchar(255) DEFAULT NULL,
+                           PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
@@ -42,13 +43,13 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) DEFAULT NULL,
-  `parent_id` int(11) DEFAULT 0,
-  `show_home` tinyint(4) DEFAULT 0,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+                              `id` int(11) NOT NULL AUTO_INCREMENT,
+                              `name` varchar(100) DEFAULT NULL,
+                              `parent_id` int(11) DEFAULT 0,
+                              `show_home` tinyint(4) DEFAULT 0,
+                              `created_at` datetime DEFAULT NULL,
+                              `updated_at` datetime DEFAULT NULL,
+                              PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
@@ -66,13 +67,13 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `files`;
 CREATE TABLE `files` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) NOT NULL,
-  `file_url` varchar(255) NOT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `product_id` (`product_id`),
-  CONSTRAINT `files_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
+                         `id` int(11) NOT NULL AUTO_INCREMENT,
+                         `product_id` int(11) NOT NULL,
+                         `file_url` varchar(255) NOT NULL,
+                         `deleted_at` datetime DEFAULT NULL,
+                         PRIMARY KEY (`id`),
+                         KEY `product_id` (`product_id`),
+                         CONSTRAINT `files_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
@@ -91,12 +92,12 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `news`;
 CREATE TABLE `news` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) DEFAULT NULL,
-  `content` text DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
+                        `id` int(11) NOT NULL AUTO_INCREMENT,
+                        `title` varchar(255) DEFAULT NULL,
+                        `content` text DEFAULT NULL,
+                        `image` varchar(255) DEFAULT NULL,
+                        `created_at` datetime DEFAULT current_timestamp(),
+                        PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
@@ -111,11 +112,11 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `order_items`;
 CREATE TABLE `order_items` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `order_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `quantity` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+                               `id` int(11) NOT NULL AUTO_INCREMENT,
+                               `order_id` int(11) DEFAULT NULL,
+                               `product_id` int(11) DEFAULT NULL,
+                               `quantity` int(11) DEFAULT NULL,
+                               PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
@@ -153,15 +154,15 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `customer_name` varchar(100) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `total_amount` int(11) DEFAULT NULL,
-  `phone` varchar(10) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `status` enum('Chờ xác nhận','Đang giao','Hoàn thành','Đã huỷ') DEFAULT 'Chờ xác nhận',
-  PRIMARY KEY (`id`)
+                          `id` int(11) NOT NULL AUTO_INCREMENT,
+                          `customer_name` varchar(100) DEFAULT NULL,
+                          `address` varchar(255) DEFAULT NULL,
+                          `total_amount` int(11) DEFAULT NULL,
+                          `phone` varchar(10) DEFAULT NULL,
+                          `user_id` int(11) DEFAULT NULL,
+                          `created_at` datetime DEFAULT NULL,
+                          `status` enum('Chờ xác nhận','Đang giao','Hoàn thành','Đã huỷ') DEFAULT 'Chờ xác nhận',
+                          PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
@@ -214,14 +215,14 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `password_reset`;
 CREATE TABLE `password_reset` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `expires_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `password_reset_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+                                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                                  `user_id` int(11) NOT NULL,
+                                  `token` varchar(255) NOT NULL,
+                                  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                                  `expires_at` TIMESTAMP NOT NULL DEFAULT (NOW() + INTERVAL 365 DAY),
+                                  PRIMARY KEY (`id`),
+                                  KEY `user_id` (`user_id`),
+                                  CONSTRAINT `password_reset_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
@@ -238,17 +239,17 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) DEFAULT NULL,
-  `slug` varchar(255) DEFAULT NULL,
-  `thumb_url` varchar(255) DEFAULT NULL,
-  `price` int(11) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `category_id` int(11) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+                            `id` int(11) NOT NULL AUTO_INCREMENT,
+                            `name` varchar(100) DEFAULT NULL,
+                            `slug` varchar(255) DEFAULT NULL,
+                            `thumb_url` varchar(255) DEFAULT NULL,
+                            `price` int(11) DEFAULT NULL,
+                            `description` text DEFAULT NULL,
+                            `category_id` int(11) DEFAULT NULL,
+                            `created_at` datetime DEFAULT NULL,
+                            `updated_at` datetime DEFAULT NULL,
+                            `deleted_at` varchar(255) DEFAULT NULL,
+                            PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
@@ -282,14 +283,14 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `role` varchar(10) DEFAULT 'user',
-  `phone` varchar(10) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+                         `id` int(11) NOT NULL AUTO_INCREMENT,
+                         `username` varchar(50) DEFAULT NULL,
+                         `password` varchar(255) DEFAULT NULL,
+                         `email` varchar(100) DEFAULT NULL,
+                         `role` varchar(10) DEFAULT 'user',
+                         `phone` varchar(10) DEFAULT NULL,
+                         `address` varchar(255) DEFAULT NULL,
+                         PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------

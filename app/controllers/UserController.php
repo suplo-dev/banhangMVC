@@ -1,6 +1,10 @@
 <?php
-class UserController extends Controller {
-    public function register() {
+require_once '../app/services/MailService.php';
+
+class UserController extends Controller
+{
+    public function register()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $username = $_POST['username'];
             $password = $_POST['password'];
@@ -14,7 +18,8 @@ class UserController extends Controller {
         }
     }
 
-    public function login() {
+    public function login()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $username = $_POST['username'];
             $password = $_POST['password'];
@@ -47,13 +52,15 @@ class UserController extends Controller {
         }
     }
 
-    public function logout() {
+    public function logout()
+    {
 
         unset($_SESSION['user']);
         header('Location: index.php');
     }
 
-    public function search() {
+    public function search()
+    {
 
         if ($_SESSION['user']['role'] != 'admin') {
             die('Bạn không có quyền truy cập!');
@@ -77,7 +84,8 @@ class UserController extends Controller {
         ]);
     }
 
-    public function profile() {
+    public function profile()
+    {
 
         if (!isset($_SESSION['user'])) {
             header('Location: ?controller=user&action=login');
@@ -91,7 +99,8 @@ class UserController extends Controller {
         }
     }
 
-    public function edit() {
+    public function edit()
+    {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $userModel = $this->model('User');
@@ -106,7 +115,8 @@ class UserController extends Controller {
         }
     }
 
-    public function add() {
+    public function add()
+    {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $userModel = $this->model('User');
@@ -117,11 +127,37 @@ class UserController extends Controller {
         }
     }
 
-    public function delete() {
+    public function delete()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $userModel = $this->model('User');
             $userModel->delete($_POST['id']);
             header('Location: ?controller=user&action=search');
+        }
+    }
+
+    public function resetPassword()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $newPassword = $_POST['password'] ?? '';
+            $confirmPassword = $_POST['confirm_password'] ?? '';
+            $userId = $_POST['id'] ?? '';
+            if ($newPassword != $confirmPassword) {
+                $this->view('user/reset-password', ['user_id' => $userId, 'error' => 'Mật khẩu không khớp']);
+            }
+            $userModel = $this->model('User');
+            $newPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            $userModel->updatePassword($userId, $newPassword);
+            $this->view('user/reset-password', ['user_id' => $userId, 'success' => 'Đổi mật khẩu thành công']);
+        } else {
+            $token = $_GET['token'] ?? '';
+            $passwordResetModel = $this->model('PasswordReset');
+            $user = $passwordResetModel->getResetToken($token);
+            if ($user) {
+                $this->view('user/reset-password', ['user_id' => $user['user_id']]);
+            } else {
+                $this->view('404');
+            }
         }
     }
 
@@ -158,15 +194,11 @@ class UserController extends Controller {
 
     private function sendResetEmail($email, $token)
     {
-        $resetLink = "http://localhost/reset-password.php?token=$token"; // Link to reset password page
+        $resetLink = "http://localhost/banhangMVC/public?controller=user&action=resetPassword&token=$token";
 
-        // Prepare email content
         $subject = 'Password Reset Request';
-        $message = "Hi, \n\nYou requested to reset your password. Click the link below to reset it: \n$resetLink\n\nIf you didn't request this, please ignore this email.";
-        $headers = 'From: no-reply@hhstore.com';
+        $message = "<html><body><p>Chào bạn,</p><p>Chúng tôi nhận được yêu cầu đặt lại mật khẩu của bạn. Để thực hiện việc này, vui lòng nhấp vào liên kết dưới đây:</p><p><a href='$resetLink' style='background-color: #3498db; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Đặt lại mật khẩu</a></p><p>Nếu bạn không yêu cầu thay đổi mật khẩu, vui lòng bỏ qua email này.</p><p>Trân trọng,<br><strong>HHStore</strong></p></body></html>";
 
-        // Send email
-        mail($email, $subject, $message, $headers);
+        MailService::send($email, $subject, $message);
     }
-
 }
