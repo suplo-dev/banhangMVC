@@ -149,7 +149,7 @@ class UserController extends Controller
             $userModel = $this->model('User');
             $newPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $userModel->updatePassword($userId, $newPassword);
-            $this->view('user/reset-password', ['user_id' => $userId, 'success' => 'Đổi mật khẩu thành công']);
+            $this->view('user/login');
         } else {
             $token = $_GET['token'] ?? '';
             $passwordResetModel = $this->model('PasswordReset');
