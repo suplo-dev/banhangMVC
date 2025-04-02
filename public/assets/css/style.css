@@ -59,3 +59,7 @@ body {
     transform: translateY(-10px); /* Nâng sản phẩm lên 10px */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Đổ bóng phía dưới */
 }
+
+.navbar {
+    background-color: #CD1818;
+}

@@ -1,5 +1,5 @@
 <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055; margin-top: 60px;"> <!-- Đưa Toast lên phía trên -->
-    <div class="toast align-items-center text-white <?= isset($_SESSION['toast']['bg_class']) ? $_SESSION['toast']['bg_class'] : 'bg-info' ?> border-0" role="alert"
+    <div class="toast toast-custom align-items-center text-white <?= isset($_SESSION['toast']['bg_class']) ? $_SESSION['toast']['bg_class'] : 'bg-info' ?> border-0" role="alert"
          aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
             <div class="toast-body">

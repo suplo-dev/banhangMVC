@@ -57,7 +57,7 @@
     <p class="text-end"><strong>Tổng tiền:</strong> <?= number_format($data['total_amount']) ?> VND</p>
 
     <div class="text-end">
-        <button type="submit" class="btn btn-primary">Thanh toán</button>
+        <button type="submit" id="checkoutButton" class="btn btn-primary" disabled>Thanh toán</button>
     </div>
 </form>
 <script>
@@ -79,6 +79,28 @@
             // Cập nhật trạng thái "Select All" checkbox
             $('#selectAll').prop('checked', allChecked);
         });
+
+        function toggleCheckoutButton() {
+            let isAnyChecked = $('.productCheckbox:checked').length > 0;
+            $('#checkoutButton').prop('disabled', !isAnyChecked);
+        }
+
+        // Lắng nghe sự kiện click vào checkbox "Select All"
+        $('#selectAll').click(function () {
+            let isChecked = $(this).prop('checked');
+            $('.productCheckbox').prop('checked', isChecked);
+            toggleCheckoutButton();
+        });
+
+        // Lắng nghe sự kiện click vào bất kỳ checkbox sản phẩm
+        $('.productCheckbox').click(function () {
+            let allChecked = $('.productCheckbox:checked').length === $('.productCheckbox').length;
+            $('#selectAll').prop('checked', allChecked);
+            toggleCheckoutButton();
+        });
+
+        // Kiểm tra trạng thái khi trang tải lại
+        toggleCheckoutButton();
     });
 
 </script>

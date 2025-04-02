@@ -19,6 +19,9 @@
                     let data = JSON.parse(response);
                     $('#cart-count').text(data.count);
                 });
+
+                const toastElement = new bootstrap.Toast(document.getElementById('cartToast'));
+                toastElement.show();
             });
 
 
@@ -42,7 +45,7 @@
         });
 
         function handleToast() {
-            const toastElement = $('.toast')[0]
+            const toastElement = $('.toast-custom')[0]
             if (toastElement) {
                 const toast = new bootstrap.Toast(toastElement); // Bootstrap Toast yêu cầu DOM element
                 toast.show();
@@ -65,7 +68,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+<nav class="navbar navbar-expand-lg mb-4">
     <div class="container">
         <a class="navbar-brand" href="index.php">
             <img width="80px" src="assets/images/logo.png" alt="">
@@ -76,20 +79,20 @@
                     <!-- Menu trái (admin links) -->
                     <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin'): ?>
                         <ul class="navbar-nav align-items-center">
-                            <li class="nav-item"><a class="nav-link" href="?controller=admin&action=index">Trang chủ</a>
+                            <li class="nav-item"><a class="nav-link text-white" style="font-weight:bold" href="?controller=admin&action=index">Trang chủ</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="?controller=admin&action=orderList">Đơn
+                            <li class="nav-item"><a class="nav-link text-white" style="font-weight:bold" href="?controller=admin&action=orderList">Đơn
                                     hàng</a></li>
-                            <li class="nav-item"><a class="nav-link" href="?controller=admin&action=productList">Sản
+                            <li class="nav-item"><a class="nav-link text-white" style="font-weight:bold" href="?controller=admin&action=productList">Sản
                                     phẩm</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="?controller=admin&action=categoryList">Danh
+                            <li class="nav-item"><a class="nav-link text-white" style="font-weight:bold" href="?controller=admin&action=categoryList">Danh
                                     mục</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="?controller=banner&action=index">Banner</a>
+                            <li class="nav-item"><a class="nav-link text-white" style="font-weight:bold" href="?controller=banner&action=index">Banner</a>
                             </li>
-                            <!--                    <li class="nav-item"><a class="nav-link" href="?controller=news&action=index">Tin tức</a></li>-->
-                            <li class="nav-item"><a class="nav-link" href="?controller=user&action=search">Thành
+                            <!--                    <li class="nav-item"><a class="nav-link text-white" style="font-weight:bold" href="?controller=news&action=index">Tin tức</a></li>-->
+                            <li class="nav-item"><a class="nav-link text-white" style="font-weight:bold" href="?controller=user&action=search">Thành
                                     viên</a></li>
                         </ul>
                     <?php else: ?>
@@ -110,7 +113,7 @@
                     <ul class="navbar-nav align-items-center">
                         <?php foreach ($_SESSION['categories'] as $category): ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="?controller=product&action=search&category_id=<?= $category['id'] ?>"> <?= $category['name'] ?></a>
+                                <a class="nav-link text-white" style="font-weight:bold" href="?controller=product&action=search&category_id=<?= $category['id'] ?>"> <?= $category['name'] ?></a>
                             </li>
                         <?php endforeach; ?>
                     </ul>
@@ -122,30 +125,30 @@
         <ul class="navbar-nav align-items-center w-50 text-end justify-content-end">
             <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'customer'): ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="?controller=order&action=history">Lịch sử đơn hàng</a>
+                    <a class="nav-link text-white" style="font-weight:bold" href="?controller=order&action=history">Lịch sử đơn hàng</a>
                 </li>
             <?php endif; ?>
             <?php if (!(isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin')): ?>
                 <!-- Giỏ hàng -->
                 <li class="nav-item dropdown me-2 position-relative">
-                    <a class="nav-link" href="?controller=cart&action=index" role="button">
+                    <a class="nav-link text-white" style="font-weight:bold" href="?controller=cart&action=index" role="button">
                         <i class="bi bi-cart"></i>
                         <span id="cart-count"
-                              class="badge bg-danger"><?= isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0 ?></span>
+                              class="badge bg-primary"><?= isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0 ?></span>
                     </a>
             </li>
             <?php endif; ?>
             <!-- User login -->
             <?php if (isset($_SESSION['user'])): ?>
-                <li class="nav-item"><a class="nav-link"
+                <li class="nav-item"><a class="nav-link text-white" style="font-weight:bold"
                                         href="?controller=user&action=profile">Hi <?= $_SESSION['user']['username'] ?>
                         ,</a></li>
-                <li class="nav-item"><a class="nav-link" href="?controller=user&action=logout">Đăng xuất</a>
+                <li class="nav-item"><a class="nav-link text-white" style="font-weight:bold" href="?controller=user&action=logout">Đăng xuất</a>
                 </li>
             <?php else: ?>
-                <li class="nav-item"><a class="nav-link" href="?controller=user&action=login">Đăng nhập</a>
+                <li class="nav-item"><a class="nav-link text-white" style="font-weight:bold" href="?controller=user&action=login">Đăng nhập</a>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="?controller=user&action=register">Đăng ký</a>
+                <li class="nav-item"><a class="nav-link text-white" style="font-weight:bold" href="?controller=user&action=register">Đăng ký</a>
                 </li>
             <?php endif; ?>
         </ul>
@@ -156,8 +159,20 @@
 <div class="container">
     <?php require_once "../app/views/$view.php"; ?>
 </div>
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1055; margin-top: 60px;"> <!-- Đưa Toast lên phía trên -->
+    <div id="cartToast" class="toast align-items-center text-white bg-success border-0" role="alert"
+         aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                Thêm sản phẩm vào giỏ hàng thành công
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
+    </div>
+</div>
 <?php !empty($_SESSION['toast']) && include_once "../app/views/partials/toast.php"; ?>
-<footer class="mt-5 pt-4 pb-3 border-top bg-dark text-white">
+<footer class="mt-5 pt-4 pb-3 border-top navbar text-white">
     <div class="container">
         <?php if (!(isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin')): ?>
             <div class="row border-bottom mb-3">
